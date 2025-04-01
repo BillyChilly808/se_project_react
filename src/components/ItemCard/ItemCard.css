@@ -9,8 +9,23 @@
   position: absolute;
   top: 15px;
   margin: 0;
+  font-family: "CabinetGrotesk";
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
 }
 
 .card__image {
   width: 100%;
+  border: 1px solid #0000004d;
+  border-radius: 10px;
+}
+
+.cards__text {
+  font-family: "CabinetGrotesk";
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
 }

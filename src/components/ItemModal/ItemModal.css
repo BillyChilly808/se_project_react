@@ -1,0 +1,32 @@
+.modal__radio-input:checked {
+  accent-color: black;
+}
+
+.modal__content_type_image {
+  position: relative;
+  background-color: fff;
+  border-radius: 16px;
+  padding: 0;
+  max-width: 498px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+}
+
+.modal__caption {
+  font-family: "CabinetGrotesk";
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  margin: 20px 0 12px 32px;
+}
+
+.modal__weather {
+  font-family: "CabinetGrotesk";
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  margin: 0 32px 32px;
+}

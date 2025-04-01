@@ -3,6 +3,7 @@ import { coordinates, APIkey } from "../../utils/constants";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
+import Footer from "../Footer/Footer";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import ItemModal from "../ItemModal/ItemModal";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
@@ -43,6 +44,7 @@ function App() {
       <div className="page__content">
         <Header handleAddClick={handleAddClick} weatherData={weatherData} />
         <Main weatherData={weatherData} handleCardClick={handleCardClick} />
+        <Footer></Footer>
       </div>
       <ModalWithForm
         title="New garment"
@@ -56,7 +58,7 @@ function App() {
             type="text"
             className="modal__input"
             id="name"
-            placeholder="name"
+            placeholder="Name"
           ></input>
         </label>
         <label htmlFor="imageUrl" className="modal__label">
