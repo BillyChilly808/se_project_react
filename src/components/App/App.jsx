@@ -58,7 +58,11 @@ function App() {
           <Main weatherData={weatherData} handleCardClick={handleCardClick} />
           <Footer></Footer>
         </div>
-        <AddItemModal></AddItemModal>
+        <AddItemModal
+          activeModal={activeModal}
+          onClose={closeActiveModal}
+          isOpen={activeModal === "add-garment"}
+        />
         <ItemModal
           activeModal={activeModal}
           card={selectedCard}
