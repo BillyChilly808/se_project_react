@@ -8,6 +8,7 @@ import ItemModal from "../ItemModal/ItemModal";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContexts";
 import AddItemModal from "../AddItemModal/AddItemModal";
+import { defaultClothingItems } from "../../utils/constants";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -18,6 +19,7 @@ function App() {
     isDay: false,
   });
 
+  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
@@ -27,8 +29,8 @@ function App() {
   };
 
   const handleCardClick = (card) => {
-    setActiveModal("preview");
     setSelectedCard(card);
+    setActiveModal("preview");
   };
 
   const handleAddClick = () => {
@@ -37,6 +39,17 @@ function App() {
 
   const closeActiveModal = () => {
     setActiveModal("");
+  };
+
+  const handleAddItemModalSubmit = (name, imageUrl, weather) => {
+    const newId = Math.max(...clothingItems.map((item) => item._id)) + 1;
+    // update clothingItems array
+    setClothingItems([
+      { name, link: imageUrl, weather, _id: newId },
+      ...clothingItems,
+    ]);
+    // close modal
+    closeActiveModal();
   };
 
   useEffect(() => {
@@ -55,13 +68,18 @@ function App() {
       <div className="page">
         <div className="page__content">
           <Header handleAddClick={handleAddClick} weatherData={weatherData} />
-          <Main weatherData={weatherData} handleCardClick={handleCardClick} />
+          <Main
+            weatherData={weatherData}
+            handleCardClick={handleCardClick}
+            clothingItems={clothingItems}
+          />
           <Footer></Footer>
         </div>
         <AddItemModal
           activeModal={activeModal}
           onClose={closeActiveModal}
           isOpen={activeModal === "add-garment"}
+          onAddItemModalSubmit={handleAddItemModalSubmit}
         />
         <ItemModal
           activeModal={activeModal}
