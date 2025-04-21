@@ -40,7 +40,7 @@ export default function AddItemModal({
       activeModal={activeModal}
       onClose={onClose}
       isOpen={isOpen}
-      handleSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     >
       <label htmlFor="name" className="modal__label">
         Name{" "}

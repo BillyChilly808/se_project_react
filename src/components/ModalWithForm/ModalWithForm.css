@@ -11,9 +11,6 @@
   visibility: hidden;
 }
 
-.modal__image {
-}
-
 .modal__label {
   margin: 0;
 }
@@ -21,7 +18,7 @@
 .modal__submit {
   color: white;
   border: none;
-  background: #0000004d;
+  background-color: black;
   margin: 32px 0 0;
   width: fit-content;
   max-width: 124px;
@@ -37,6 +34,14 @@
   font-size: 16px;
   line-height: 20px;
   letter-spacing: 0%;
+}
+
+.modal__submit:hover {
+  background: #00000099;
+}
+
+.modal__submit_disabled {
+  background: #0000004d;
 }
 
 .modal_opened {

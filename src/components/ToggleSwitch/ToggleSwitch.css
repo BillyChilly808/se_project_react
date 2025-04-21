@@ -3,14 +3,9 @@
   height: 28px;
   border: 2px solid black;
   border-radius: 20px;
-  overflow: hidden;
   cursor: pointer;
   margin-left: auto;
   position: relative;
-}
-
-*:focus {
-  outline: 5px solid red;
 }
 
 .toggle-switch__checkbox {
@@ -30,7 +25,14 @@
 .toggle-switch__text {
   color: grey;
   position: absolute;
-  top: 5px;
+  top: 7px;
+  font-family: CabinetGrotesk;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .toggle-switch__text_F {

@@ -12,18 +12,14 @@ function Main({ weatherData, handleCardClick, clothingItems }) {
         </p>
         <ul className="cards__list">
           {clothingItems
-            .filter((item) => {
-              return item.weather === weatherData.type;
-            })
-            .map((item) => {
-              return (
-                <ItemCard
-                  key={item._id}
-                  item={item}
-                  onCardClick={handleCardClick}
-                />
-              );
-            })}
+            .filter((item) => item.weather === weatherData.type)
+            .map((item) => (
+              <ItemCard
+                key={item._id}
+                item={item}
+                onCardClick={handleCardClick}
+              />
+            ))}
         </ul>
       </section>
     </main>

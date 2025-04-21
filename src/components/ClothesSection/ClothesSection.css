@@ -1,0 +1,26 @@
+.clothes-section__items {
+  margin-left: 116px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.clothes-section__add-button {
+  border: none;
+  font-family: CabinetGrotesk;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #00000099;
+  padding: 0;
+  margin-left: 20px;
+}
+
+.clothes-section__header {
+  font-family: CabinetGrotesk;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
