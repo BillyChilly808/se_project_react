@@ -60,6 +60,17 @@ function App() {
     closeActiveModal();
   };
 
+  const handleConfirmDelete = (_id) => {
+    deleteItems(selectedCard._id)
+      .then(() => {
+        setClothingItems((prevItems) =>
+          prevItems.filter((item) => item._id != selectedCard._id)
+        );
+        setActiveModal("");
+      })
+      .catch(console.error);
+  };
+
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
@@ -128,6 +139,8 @@ function App() {
         <DeleteConfirm
           activeModal={activeModal}
           isOpen={activeModal === "confirm-delete"}
+          onClose={closeActiveModal}
+          handleConfirmDelete={handleConfirmDelete}
         />
       </div>
     </CurrentTemperatureUnitContext.Provider>

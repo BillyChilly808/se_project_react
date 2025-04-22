@@ -8,20 +8,26 @@ function getItems() {
 
 function addItems(id) {
   return fetch(`${baseUrl}/items/${id}`, {
-    method: "POST}",
-    headers: {
-      "Content-Type": "application / json",
-    },
-  }).then(handleServerResponse);
+    method: "DELETE",
+  }).then((res) => {
+    console.log(`${baseUrl}/items/${id}`);
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error: ${res.status}`);
+  });
 }
 
 function deleteItems(id) {
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
-    headers: {
-      "Content-Type": "application / json",
-    },
-  }).then(handleServerResponse);
+  }).then((res) => {
+    console.log(`${baseUrl}/items/${id}`);
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error: ${res.status}`);
+  });
 }
 
 export { getItems, addItems, deleteItems };
