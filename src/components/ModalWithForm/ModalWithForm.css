@@ -74,16 +74,6 @@
   background-color: transparent;
 }
 
-.modal__content {
-  background-color: white;
-  position: relative;
-  padding: 28px 28px 36px;
-  width: 100%;
-  max-width: 496px;
-  border-radius: 10px;
-  border: 1px solid #0000004d;
-}
-
 .modal__input {
   display: block;
   font-family: "CabinetGrotesk";

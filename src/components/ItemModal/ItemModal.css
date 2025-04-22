@@ -2,12 +2,31 @@
   accent-color: black;
 }
 
+.modal__content {
+  background-color: white;
+  position: relative;
+  padding: 28px 28px 36px;
+  width: 100%;
+  max-width: 496px;
+  border-radius: 10px;
+  border: 1px solid #0000004d;
+}
+
+.modal__image {
+  max-width: 498px;
+  max-height: 498px;
+  width: 100%;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
 .modal__content_type_image {
   position: relative;
   background-color: fff;
   border-radius: 16px;
   padding: 0;
   max-width: 498px;
+  max-height: 610px;
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
@@ -43,6 +62,7 @@
   line-height: 24px;
   font-weight: 700;
   margin-left: auto;
+  margin-right: 32px;
   bottom: 60px;
   display: flex;
 }

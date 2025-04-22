@@ -8,10 +8,10 @@ import ItemModal from "../ItemModal/ItemModal";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContexts";
 import AddItemModal from "../AddItemModal/AddItemModal";
-import { defaultClothingItems } from "../../utils/constants";
 import { Routes, Route } from "react-router-dom";
 import Profile from "../Profile/Profile";
-import { getItems } from "../../utils/api";
+import { getItems, addItems, deleteItems } from "../../utils/api";
+import DeleteConfirm from "../DeleteConfirm/DeleteConfirm";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -36,6 +36,10 @@ function App() {
     setActiveModal("preview");
   };
 
+  const handleDeleteClick = () => {
+    setActiveModal("confirm-delete");
+  };
+
   const handleAddClick = () => {
     setActiveModal("add-garment");
   };
@@ -45,12 +49,14 @@ function App() {
   };
 
   const handleAddItemModalSubmit = (name, imageUrl, weather) => {
-    // update clothingItems array
-    setClothingItems((prevItems) => [
-      { name, link: imageUrl, weather },
-      ...prevItems,
-    ]);
-    // close modal
+    const newItem = {
+      _id: Date.now().toString(),
+      name,
+      imageUrl,
+      weather,
+    };
+
+    setClothingItems((prevItems) => [newItem, ...prevItems]);
     closeActiveModal();
   };
 
@@ -94,7 +100,13 @@ function App() {
             />
             <Route
               path="/profile"
-              element={<Profile onCardClick={handleCardClick} />}
+              element={
+                <Profile
+                  handleAddClick={handleAddClick}
+                  onCardClick={handleCardClick}
+                  clothingItems={clothingItems}
+                />
+              }
             />
           </Routes>
 
@@ -111,6 +123,11 @@ function App() {
           card={selectedCard}
           onClose={closeActiveModal}
           isOpen={activeModal === "add-garment"}
+          deleteCard={handleDeleteClick}
+        />
+        <DeleteConfirm
+          activeModal={activeModal}
+          isOpen={activeModal === "confirm-delete"}
         />
       </div>
     </CurrentTemperatureUnitContext.Provider>
