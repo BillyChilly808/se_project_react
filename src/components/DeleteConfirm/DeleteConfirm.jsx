@@ -1,7 +1,12 @@
 import "./DeleteConfirm.css";
 import close from "../../assets/closebutton.svg";
 
-function DeleteConfirm({ activeModal, onClose, handleConfirmDelete }) {
+function DeleteConfirm({
+  activeModal,
+  onClose,
+  handleConfirmDelete,
+  selectedCard,
+}) {
   return (
     <div
       className={`modal ${activeModal === "confirm-delete" && "modal_opened"}`}
@@ -16,7 +21,7 @@ function DeleteConfirm({ activeModal, onClose, handleConfirmDelete }) {
         </p>
         <button
           className="modal__delete-yes-button"
-          onClick={handleConfirmDelete}
+          onClick={() => handleConfirmDelete(selectedCard._id)}
         >
           Yes, delete item
         </button>

@@ -48,25 +48,25 @@ function App() {
     setActiveModal("");
   };
 
-  const handleAddItemModalSubmit = (name, imageUrl, weather) => {
-    const newItem = {
-      _id: Date.now().toString(),
-      name,
-      imageUrl,
-      weather,
-    };
+  const handleAddItemModalSubmit = (values) => {
+    const newItem = { ...values, _id: Date.now().toString() };
 
-    setClothingItems((prevItems) => [newItem, ...prevItems]);
-    closeActiveModal();
+    addItems(newItem)
+      .then(() => {
+        setClothingItems([newItem, ...clothingItems]);
+        closeActiveModal();
+      })
+      .catch(console.error);
   };
 
   const handleConfirmDelete = (_id) => {
-    deleteItems(selectedCard._id)
+    console.log("Deleting item with _id:", _id);
+    deleteItems(_id)
       .then(() => {
         setClothingItems((prevItems) =>
-          prevItems.filter((item) => item._id != selectedCard._id)
+          prevItems.filter((item) => item._id != _id)
         );
-        setActiveModal("");
+        closeActiveModal();
       })
       .catch(console.error);
   };
@@ -141,6 +141,7 @@ function App() {
           isOpen={activeModal === "confirm-delete"}
           onClose={closeActiveModal}
           handleConfirmDelete={handleConfirmDelete}
+          selectedCard={selectedCard}
         />
       </div>
     </CurrentTemperatureUnitContext.Provider>

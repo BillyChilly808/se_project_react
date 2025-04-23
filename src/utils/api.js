@@ -6,11 +6,15 @@ function getItems() {
   });
 }
 
-function addItems(id) {
-  return fetch(`${baseUrl}/items/${id}`, {
-    method: "DELETE",
+function addItems(values) {
+  return fetch(`${baseUrl}/items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
   }).then((res) => {
-    console.log(`${baseUrl}/items/${id}`);
+    console.log("POST to:", `${baseUrl}/items`);
     if (res.ok) {
       return res.json();
     }
