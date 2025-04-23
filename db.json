@@ -1,12 +1,6 @@
 {
   "items": [
     {
-      "_id": 5,
-      "name": "Hoodie",
-      "weather": "cold",
-      "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Hoodie.png?etag=5f52451d0958ccb1016c78a45603a4e8"
-    },
-    {
       "_id": 6,
       "name": "Jacket",
       "weather": "cold",
@@ -110,6 +104,48 @@
       "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Hoodie.png?etag=5f52451d0958ccb1016c78a45603a4e8",
       "weather": "warm",
       "_id": "1745368662586"
+    },
+    {
+      "name": "test",
+      "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Cap.png?etag=f3dad389b22909cafa73cff9f9a3d591",
+      "weather": "hot",
+      "_id": "1745368720447"
+    },
+    {
+      "name": "est",
+      "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Cap.png?etag=f3dad389b22909cafa73cff9f9a3d591",
+      "weather": "warm",
+      "_id": "1745442442802"
+    },
+    {
+      "name": "test",
+      "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Hoodie.png?etag=5f52451d0958ccb1016c78a45603a4e8",
+      "weather": "warm",
+      "_id": "1745443111666"
+    },
+    {
+      "name": "test",
+      "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Cap.png?etag=f3dad389b22909cafa73cff9f9a3d591",
+      "weather": "warm",
+      "_id": "1745443193767"
+    },
+    {
+      "name": "test",
+      "imageUrl": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+      "weather": "warm",
+      "_id": "1745444548632"
+    },
+    {
+      "name": "test",
+      "imageUrl": "https://fastly.picsum.photos/id/17/2500/1667.jpg?hmac=HD-JrnNUZjFiP2UZQvWcKrgLoC_pc_ouUSWv8kHsJJY",
+      "weather": "warm",
+      "_id": "1745444576186"
+    },
+    {
+      "name": "test",
+      "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Cap.png?etag=f3dad389b22909cafa73cff9f9a3d591",
+      "weather": "warm",
+      "_id": "1745444925409"
     }
   ]
 }
