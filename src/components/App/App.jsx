@@ -12,6 +12,7 @@ import { Routes, Route } from "react-router-dom";
 import Profile from "../Profile/Profile";
 import { getItems, addItems, deleteItems } from "../../utils/api";
 import DeleteConfirm from "../DeleteConfirm/DeleteConfirm";
+import LoginModal from "../LoginModal/LoginModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -123,6 +124,7 @@ function App() {
 
           <Footer></Footer>
         </div>
+        <LoginModal></LoginModal>
         <AddItemModal
           activeModal={activeModal}
           onClose={closeActiveModal}
