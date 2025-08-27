@@ -6,13 +6,24 @@ import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import ItemModal from "../ItemModal/ItemModal";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
-import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContexts";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Profile from "../Profile/Profile";
-import { getItems, addItems, deleteItems } from "../../utils/api";
+import {
+  getItems,
+  addItems,
+  deleteItems,
+  addCardLike,
+  removeCardLike,
+  updateUserInfo,
+  getUserData,
+} from "../../utils/api";
 import DeleteConfirm from "../DeleteConfirm/DeleteConfirm";
 import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -27,6 +38,18 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
+
+  const openRegisterModal = () => {
+    setActiveModal("sign-up");
+  };
+
+  const openLoginModal = () => {
+    setActiveModal("login");
+  };
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -45,19 +68,60 @@ function App() {
     setActiveModal("add-garment");
   };
 
+  const handleEditProfileClick = () => {
+    setActiveModal("change-profile");
+  };
+
+  const handleSignOutClick = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    navigate("/");
+  };
+
+  const switchToLoginModal = () => {
+    closeActiveModal("");
+    setActiveModal("login");
+  };
+
+  const switchToSignUpModal = () => {
+    closeActiveModal("");
+    setActiveModal("sign-up");
+  };
+
   const closeActiveModal = () => {
     setActiveModal("");
   };
 
   const handleAddItemModalSubmit = (values) => {
-    const newItem = { ...values, _id: Date.now().toString() };
+    const token = localStorage.getItem("jwt"); // get token from storage
 
-    addItems(newItem)
-      .then(() => {
-        setClothingItems([newItem, ...clothingItems]);
+    if (!token) {
+      console.error("No token found. User might not be logged in.");
+      return;
+    }
+
+    addItems(values, token)
+      .then((newItem) => {
+        setClothingItems((prev) => [newItem, ...prev]);
         closeActiveModal();
       })
-      .catch(console.error);
+      .catch((err) => console.error("Error adding item:", err));
+  };
+
+  const handleTokenCheck = () => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      tokenCheck(token)
+        .then((res) => {
+          setCurrentUser(res);
+          setIsLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsLoggedIn(false);
+        });
+    }
   };
 
   const handleConfirmDelete = (_id) => {
@@ -71,6 +135,79 @@ function App() {
       })
       .catch(console.error);
   };
+
+  const handleRegisterModalSubmit = ({ email, password, name, avatarUrl }) => {
+    signup(email, password, name, avatarUrl)
+      .then((data) => {
+        console.log(data);
+        closeActiveModal();
+      })
+      .catch(console.error);
+  };
+
+  const handleSignInModalSubmit = ({ email, password }) => {
+    signin(email, password)
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem("jwt", data.token);
+        getUserData().then((UserData) => {
+          setCurrentUser(UserData);
+          closeActiveModal();
+        });
+        setIsLoggedIn(true);
+      })
+      .catch(console.error);
+  };
+
+  const handleCardLike = (item) => {
+    const token = localStorage.getItem("jwt");
+    const isLiked = item.likes.includes(currentUser._id);
+    const id = item._id;
+
+    const request = isLiked
+      ? removeCardLike(id, token)
+      : addCardLike(id, token);
+
+    request
+      .then((updatedCard) => {
+        setClothingItems((cards) =>
+          cards.map((card) => (card._id === id ? updatedCard : card))
+        );
+      })
+      .catch((err) => console.log("Like toggle error:", err));
+  };
+
+  const handleEditProfileSubmit = (userData) => {
+    updateUserInfo(userData, localStorage.getItem("jwt"))
+      .then((res) => {
+        setCurrentUser(res);
+        closeActiveModal();
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleSignIn = ({ email, password }) => {
+    signin(email, password)
+      .then((data) => {
+        localStorage.setItem("jwt", data.token);
+        setIsLoggedIn(true);
+        handleTokenCheck();
+      })
+      .catch(console.error);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    getUserData().then((data) => {
+      setCurrentUser(data);
+    });
+  }, []);
 
   useEffect(() => {
     getWeather(coordinates, APIkey)
@@ -91,62 +228,98 @@ function App() {
       .catch(console.error);
   }, []);
 
-  return (
-    <CurrentTemperatureUnitContext.Provider
-      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-    >
-      <div className="page">
-        <div className="page__content">
-          <Header handleAddClick={handleAddClick} weatherData={weatherData} />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                // pass clothing items as prop
-                <Main
-                  weatherData={weatherData}
-                  handleCardClick={handleCardClick}
-                  clothingItems={clothingItems}
-                />
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <Profile
-                  handleAddClick={handleAddClick}
-                  onCardClick={handleCardClick}
-                  clothingItems={clothingItems}
-                />
-              }
-            />
-          </Routes>
+  const ProtectedRoute = ({ isloggedIn, children }) => {
+    return isloggedIn ? children : <Navigate to="/" />;
+  };
 
-          <Footer></Footer>
+  return (
+    <CurrentUserContext.Provider
+      value={{ currentUser, isLoggedIn, handleSignOut }}
+    >
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+      >
+        <div className="page">
+          <div className="page__content">
+            <Header
+              handleAddClick={handleAddClick}
+              weatherData={weatherData}
+              handleRegisterClick={openRegisterModal}
+              handleLoginClick={openLoginModal}
+            />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  // pass clothing items as prop
+                  <Main
+                    weatherData={weatherData}
+                    handleCardLike={handleCardLike}
+                    handleDeleteClick={handleDeleteClick}
+                    handleCardClick={handleCardClick}
+                    clothingItems={clothingItems}
+                    onSignIn={handleSignIn}
+                    username={currentUser?.name}
+                  />
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute isloggedIn={isLoggedIn}>
+                    <Profile
+                      handleCardClick={handleCardClick}
+                      clothingItems={clothingItems}
+                      username={currentUser?.name}
+                      addItems={addItems}
+                      deleteClick={handleDeleteClick}
+                      handleAddClick={handleAddClick}
+                      handleCardLike={handleCardLike}
+                      handleEditProfileClick={handleEditProfileClick}
+                      handleSignOutClick={handleSignOutClick}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+
+            <Footer></Footer>
+          </div>
+          <LoginModal></LoginModal>
+          <AddItemModal
+            activeModal={activeModal}
+            onClose={closeActiveModal}
+            isOpen={activeModal === "add-garment"}
+            onAddItemModalSubmit={handleAddItemModalSubmit}
+          />
+          <ItemModal
+            activeModal={activeModal}
+            card={selectedCard}
+            onClose={closeActiveModal}
+            isOpen={activeModal === "add-garment"}
+            deleteCard={handleDeleteClick}
+          />
+          <DeleteConfirm
+            activeModal={activeModal}
+            isOpen={activeModal === "confirm-delete"}
+            onClose={closeActiveModal}
+            handleConfirmDelete={handleConfirmDelete}
+            selectedCard={selectedCard}
+          />
+          <RegisterModal
+            isOpen={activeModal === "sign-up"}
+            onClose={() => setActiveModal(null)}
+            switchToLogin={switchToLoginModal}
+            handleRegisterModalSubmit={handleRegisterModalSubmit}
+          />
+          <EditProfileModal
+            isOpen={activeModal === "change-profile"}
+            onClose={closeActiveModal}
+            handleEditProfileSubmit={handleEditProfileSubmit}
+          />
         </div>
-        <LoginModal></LoginModal>
-        <AddItemModal
-          activeModal={activeModal}
-          onClose={closeActiveModal}
-          isOpen={activeModal === "add-garment"}
-          onAddItemModalSubmit={handleAddItemModalSubmit}
-        />
-        <ItemModal
-          activeModal={activeModal}
-          card={selectedCard}
-          onClose={closeActiveModal}
-          isOpen={activeModal === "add-garment"}
-          deleteCard={handleDeleteClick}
-        />
-        <DeleteConfirm
-          activeModal={activeModal}
-          isOpen={activeModal === "confirm-delete"}
-          onClose={closeActiveModal}
-          handleConfirmDelete={handleConfirmDelete}
-          selectedCard={selectedCard}
-        />
-      </div>
-    </CurrentTemperatureUnitContext.Provider>
+      </CurrentTemperatureUnitContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 
