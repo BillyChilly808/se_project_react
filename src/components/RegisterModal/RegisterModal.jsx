@@ -1,12 +1,14 @@
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./RegisterModal.css";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 function RegisterModal({
-  handleRegistration,
+  handleRegistrationModalSubmit,
   isOpen,
   onClose,
   isLoading,
-  handleLogin,
+  handleLoginClick,
 }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,8 +48,7 @@ function RegisterModal({
   return (
     <ModalWithForm
       title="Sign up"
-      buttonText={isLoading ? "Registering" : "Next"}
-      altButtonText="or Log in"
+      buttonText={isLoading ? "Saving..." : "Sign Up"}
       isOpen={isOpen}
       onSubmit={handleSubmit}
       onClose={onClose}
@@ -107,14 +108,11 @@ function RegisterModal({
       </label>
       <div className="modal__button-container">
         <button
-          type="submit"
-          className="modal__submit"
-          onClick={handleRegistration}
+          type="button"
+          className="modal__alternative-btn"
+          onClick={handleLoginClick}
         >
-          Sign up
-        </button>
-        <button type="button" className="modal__login" onClick={handleLogin}>
-          or Login
+          or Log In
         </button>
       </div>
     </ModalWithForm>

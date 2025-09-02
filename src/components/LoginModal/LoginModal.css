@@ -13,3 +13,14 @@
   align-items: center;
   gap: 8px;
 }
+
+.modal__alternative-btn {
+  border: none;
+  background-color: #ffffff;
+  font-family: "CabinetGrotesk", Times, serif;
+  color: #00000080;
+  position: absolute;
+  bottom: 45px;
+  left: 160px;
+  cursor: pointer;
+}

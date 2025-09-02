@@ -53,7 +53,11 @@ function Header({
             >
               Sign Up
             </button>
-            <button className="header__login-btn" onClick={handleLoginClick}>
+            <button
+              type="button"
+              className="header__login-btn"
+              onClick={handleLoginClick}
+            >
               Log In
             </button>
           </div>

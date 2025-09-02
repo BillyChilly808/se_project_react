@@ -285,7 +285,12 @@ function App() {
 
             <Footer></Footer>
           </div>
-          <LoginModal></LoginModal>
+          <LoginModal
+            isOpen={activeModal === "login"}
+            handleLogin={openLoginModal}
+            onClose={closeActiveModal}
+            handleRegisterClick={openRegisterModal}
+          />
           <AddItemModal
             activeModal={activeModal}
             onClose={closeActiveModal}
@@ -311,6 +316,7 @@ function App() {
             onClose={() => setActiveModal(null)}
             switchToLogin={switchToLoginModal}
             handleRegisterModalSubmit={handleRegisterModalSubmit}
+            handleLoginClick={openLoginModal}
           />
           <EditProfileModal
             isOpen={activeModal === "change-profile"}
