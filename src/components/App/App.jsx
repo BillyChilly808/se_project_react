@@ -20,6 +20,7 @@ import {
   updateUserInfo,
   getUserData,
 } from "../../utils/api";
+import { signin, signup } from "../../utils/auth";
 import DeleteConfirm from "../DeleteConfirm/DeleteConfirm";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
@@ -132,6 +133,16 @@ function App() {
           prevItems.filter((item) => item._id != _id)
         );
         closeActiveModal();
+      })
+      .catch(console.error);
+  };
+
+  const handleRegistration = (userData) => {
+    signup(userData)
+      .then(() => {
+        setActiveModal("");
+        handleLogin({ email: userData.email, password: userData.password });
+        navigate("/profile");
       })
       .catch(console.error);
   };
@@ -314,6 +325,7 @@ function App() {
           <RegisterModal
             isOpen={activeModal === "sign-up"}
             onClose={() => setActiveModal(null)}
+            handleRegistration={handleRegistration}
             switchToLogin={switchToLoginModal}
             handleRegisterModalSubmit={handleRegisterModalSubmit}
             handleLoginClick={openLoginModal}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function RegisterModal({
-  handleRegistrationModalSubmit,
+  handleRegistration,
   isOpen,
   onClose,
   isLoading,
@@ -99,7 +99,7 @@ function RegisterModal({
           className="modal__input"
           id="avatar-register"
           name="avatar"
-          type="text"
+          type="url"
           value={avatar}
           onChange={handleAvatarChange}
           required
