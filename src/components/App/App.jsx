@@ -137,16 +137,6 @@ function App() {
       .catch(console.error);
   };
 
-  const handleRegistration = (userData) => {
-    signup(userData)
-      .then(() => {
-        setActiveModal("");
-        handleLogin({ email: userData.email, password: userData.password });
-        navigate("/profile");
-      })
-      .catch(console.error);
-  };
-
   const handleRegisterModalSubmit = ({ email, password, name, avatarUrl }) => {
     signup(email, password, name, avatarUrl)
       .then((data) => {
@@ -195,16 +185,6 @@ function App() {
         closeActiveModal();
       })
       .catch((error) => console.log(error));
-  };
-
-  const handleSignIn = ({ email, password }) => {
-    signin(email, password)
-      .then((data) => {
-        localStorage.setItem("jwt", data.token);
-        setIsLoggedIn(true);
-        handleTokenCheck();
-      })
-      .catch(console.error);
   };
 
   const handleSignOut = () => {
@@ -269,7 +249,7 @@ function App() {
                     handleDeleteClick={handleDeleteClick}
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
-                    onSignIn={handleSignIn}
+                    onSignIn={handleSignInModalSubmit}
                     username={currentUser?.name}
                   />
                 }
@@ -298,7 +278,7 @@ function App() {
           </div>
           <LoginModal
             isOpen={activeModal === "login"}
-            handleLogin={openLoginModal}
+            onSignIn={handleSignInModalSubmit}
             onClose={closeActiveModal}
             handleRegisterClick={openRegisterModal}
           />
@@ -324,8 +304,7 @@ function App() {
           />
           <RegisterModal
             isOpen={activeModal === "sign-up"}
-            onClose={() => setActiveModal(null)}
-            handleRegistration={handleRegistration}
+            onClose={closeActiveModal}
             switchToLogin={switchToLoginModal}
             handleRegisterModalSubmit={handleRegisterModalSubmit}
             handleLoginClick={openLoginModal}

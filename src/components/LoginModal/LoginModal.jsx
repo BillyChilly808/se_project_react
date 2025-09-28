@@ -4,7 +4,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./LoginModal.css";
 
 const LoginModal = ({
-  handleLogin,
+  onSignIn,
   isOpen,
   onClose,
   isLoading,
@@ -23,7 +23,7 @@ const LoginModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin({ email, password });
+    onSignIn({ email, password });
   };
 
   useEffect(() => {

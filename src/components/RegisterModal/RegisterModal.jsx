@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function RegisterModal({
-  handleRegistration,
+  handleRegisterModalSubmit,
   isOpen,
   onClose,
   isLoading,
@@ -33,7 +33,7 @@ function RegisterModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleRegistration({ email, password, name, avatar });
+    handleRegisterModalSubmit({ email, password, name, avatar });
   };
 
   useEffect(() => {
