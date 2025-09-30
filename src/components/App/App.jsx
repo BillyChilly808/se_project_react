@@ -127,7 +127,7 @@ function App() {
 
   const handleConfirmDelete = (_id) => {
     console.log("Deleting item with _id:", _id);
-    deleteItems(_id)
+    deleteItems(_id, localStorage.getItem("jwt"))
       .then(() => {
         setClothingItems((prevItems) =>
           prevItems.filter((item) => item._id != _id)
@@ -151,7 +151,7 @@ function App() {
       .then((data) => {
         console.log(data);
         localStorage.setItem("jwt", data.token);
-        getUserData().then((UserData) => {
+        getUserData(data.token).then((UserData) => {
           setCurrentUser(UserData);
           closeActiveModal();
         });
@@ -161,6 +161,11 @@ function App() {
   };
 
   const handleCardLike = (item) => {
+    if (!currentUser) {
+      console.log("User not logged in, cannot like item");
+      return;
+    }
+
     const token = localStorage.getItem("jwt");
     const isLiked = item.likes.includes(currentUser._id);
     const id = item._id;
@@ -177,7 +182,6 @@ function App() {
       })
       .catch((err) => console.log("Like toggle error:", err));
   };
-
   const handleEditProfileSubmit = (userData) => {
     updateUserInfo(userData, localStorage.getItem("jwt"))
       .then((res) => {
@@ -251,6 +255,7 @@ function App() {
                     clothingItems={clothingItems}
                     onSignIn={handleSignInModalSubmit}
                     username={currentUser?.name}
+                    currentUser={currentUser}
                   />
                 }
               />

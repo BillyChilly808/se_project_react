@@ -34,3 +34,23 @@
   line-height: 100%;
   letter-spacing: 0%;
 }
+
+.card__like-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.card__like-icon {
+  width: 20px;
+  height: 20px;
+}
